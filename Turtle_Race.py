@@ -4,12 +4,14 @@ import random
 scrn = t.Screen()
 scrn.colormode(255)
 scrn.setup(width=0.75, height=0.75, startx=None, starty=None)
+scrn.title("Welcome To The Turtle Race!")
 
-selected_turtle = scrn.textinput(title="Turtle Race!", prompt="Please choise your turtle.")
+selected_turtle = scrn.textinput(title="Turtle Race!",
+            prompt="Please choise your turtle:\n""""Red,Cyan,Black,Blue, Magenta,Yellow,Pink,Grey,Violet,Purple""")
 
-colors = ["red", "cyan", "black", "blue", "magenta", "white",
-          "yellow", "silver", "pink", "gold", "grey", "aquamarine",
-          "violet", "red3", "purple", "aqua", "lime", "gold3", "plum"]
+colors = ["Red", "Cyan", "Black", "Blue", "Magenta",
+          "Yellow", "Pink", "Grey",
+          "Violet", "Purple"]
 
 
 def create_turtles(loc):
@@ -18,8 +20,7 @@ def create_turtles(loc):
         racer = t.Turtle()
         racer.shape("turtle")
         r_choise = random.choice(colors)
-        if r_choise == "":
-            r_choise = random.choice(colors)
+        racer.pen(pencolor=r_choise, pensize=3)
         racer.color(r_choise)
         colors.remove(r_choise)
         racer.shapesize(2, 2, 3)
@@ -30,13 +31,22 @@ def create_turtles(loc):
     return racers
 
 
-def random_movement():
+def main_game():
+    is_race_on = True
     turtles = create_turtles(-300)
-    for _ in range(200):
+    while is_race_on:
+        r_move = random.randint(1, 30)
         turtle = random.choice(turtles)
-        turtle.forward(100)
+        turtle.pendown()
+        turtle.forward(r_move)
+        if turtle.xcor() > 700:
+            if turtle.pencolor() == selected_turtle.capitalize():
+                print(f"{turtle.pencolor()} turtle wins ! Your bet was correct !")
+            else:
+                print(f"{turtle.pencolor()} turtle wins ! Your bet was incorrect !")
+            scrn.bye()
 
 
-random_movement()
+main_game()
 
 scrn.exitonclick()
